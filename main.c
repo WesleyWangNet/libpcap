@@ -3,7 +3,12 @@
 #include <string.h>
 #include <stdlib.h>
 
-
+void callback(unsigned char *user_buf, const struct pcap_pkthdr *pkthdr, \
+              const unsigned char *recv_buf) {
+    printf("caplen: %d\n", pkthdr->caplen);
+    printf("dst:%02x:%02x:%02x:%02x:%02x:%02x\n", recv_buf[0], recv_buf[1], recv_buf[2], recv_buf[3], recv_buf[4], recv_buf[5]);
+    printf("src:%02x:%02x:%02x:%02x:%02x:%02x\n", recv_buf[6], recv_buf[7], recv_buf[8], recv_buf[9], recv_buf[10], recv_buf[11]);
+}
 
 int main(int argc, char const *argv[])
 {
@@ -41,6 +46,7 @@ int main(int argc, char const *argv[])
         exit(-1);
     }
 
+#if 0
     //捕获一个数据包
     struct pcap_pkthdr pkthdr;
     unsigned char *recv_buf = NULL;
@@ -52,7 +58,13 @@ int main(int argc, char const *argv[])
 
     printf("dst:%02x:%02x:%02x:%02x:%02x:%02x\n", recv_buf[0], recv_buf[1], recv_buf[2], recv_buf[3], recv_buf[4], recv_buf[5]);
     printf("src:%02x:%02x:%02x:%02x:%02x:%02x\n", recv_buf[6], recv_buf[7], recv_buf[8], recv_buf[9], recv_buf[10], recv_buf[11]);
-
+#endif
+    //捕获10个数据包
+    int err_log = pcap_loop(pcap_head, 10, callback, NULL);
+    if (err_log < 0) {
+        perror("pcap_loop failed: \r\n");
+        exit(-1);
+    }
 
 
     return 0;
