@@ -5,6 +5,39 @@
 
 #include <net/ethernet.h>
 
+/*
+struct ether_header
+{
+u_int8_t ether_dhost[ETH_ALEN];      // destination eth addr 
+u_int8_t ether_shost[ETH_ALEN];      // source ether addr    
+u_int16_t ether_type;                 // packet type ID field 
+} __attribute__ ((__packed__));
+
+struct iphdr
+{
+#if __BYTE_ORDER == __LITTLE_ENDIAN
+    unsigned int ihl:4;
+    unsigned int version:4;
+#elif __BYTE_ORDER == __BIG_ENDIAN
+    unsigned int version:4;
+    unsigned int ihl:4;
+#else
+# error "Please fix <bits/endian.h>"
+#endif
+    u_int8_t tos;
+    u_int16_t tot_len;
+    u_int16_t id;
+    u_int16_t frag_off;
+    u_int8_t ttl;
+    u_int8_t protocol;
+    u_int16_t check;
+    u_int32_t saddr;
+    u_int32_t daddr;
+};
+
+
+*/
+
 void callback(unsigned char *user_buf, const struct pcap_pkthdr *pkthdr, \
               const unsigned char *recv_buf) {
 #if 0
