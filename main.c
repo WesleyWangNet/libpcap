@@ -3,11 +3,19 @@
 #include <string.h>
 #include <stdlib.h>
 
+#include <net/ethernet.h>
+
 void callback(unsigned char *user_buf, const struct pcap_pkthdr *pkthdr, \
               const unsigned char *recv_buf) {
+#if 0
     printf("caplen: %d\n", pkthdr->caplen);
     printf("dst:%02x:%02x:%02x:%02x:%02x:%02x\n", recv_buf[0], recv_buf[1], recv_buf[2], recv_buf[3], recv_buf[4], recv_buf[5]);
     printf("src:%02x:%02x:%02x:%02x:%02x:%02x\n", recv_buf[6], recv_buf[7], recv_buf[8], recv_buf[9], recv_buf[10], recv_buf[11]);
+#endif
+    struct ether_header *eth_hdr = (struct ether_header *)recv_buf;
+    printf("%s %d, caplen: %d\r\n", __FUNCTION__, __LINE__,  pkthdr->caplen);
+    printf("dst:%02x:%02x:%02x:%02x:%02x:%02x\n", eth_hdr->ether_shost[0], eth_hdr->ether_shost[1], eth_hdr->ether_shost[2], eth_hdr->ether_shost[3], eth_hdr->ether_shost[4], eth_hdr->ether_shost[5]);
+    printf("dst:%02x:%02x:%02x:%02x:%02x:%02x\n", eth_hdr->ether_dhost[0], eth_hdr->ether_dhost[1], eth_hdr->ether_dhost[2], eth_hdr->ether_dhost[3], eth_hdr->ether_dhost[4], eth_hdr->ether_dhost[5]);
 }
 
 int main(int argc, char const *argv[])
